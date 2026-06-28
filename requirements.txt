@@ -1,7 +1,6 @@
 # core deps
-numpy==1.22.0;python_version<="3.10"
-numpy>=1.24.3;python_version>"3.10"
-cython>=0.29.30
+numpy>=1.26.0
+cython>=3.0.0
 scipy>=1.11.2
 torch>=2.1
 torchaudio
@@ -24,7 +23,7 @@ flask>=2.0.1
 pysbd>=0.3.4
 # deps for notebooks
 umap-learn>=0.5.1
-pandas>=1.4,<2.0
+pandas>=2.0
 # deps for training
 matplotlib>=3.7.0
 # coqui stack
