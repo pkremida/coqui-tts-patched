@@ -28,7 +28,11 @@ from packaging.version import Version
 import numpy
 import setuptools.command.build_py
 import setuptools.command.develop
-from Cython.Build import cythonize
+try:
+    from Cython.Build import cythonize
+    HAS_CYTHON = True
+except ImportError:
+    HAS_CYTHON = False
 from setuptools import Extension, find_packages, setup
 
 python_version = sys.version.split()[0]
@@ -77,6 +81,8 @@ exts = [
         sources=["TTS/tts/utils/monotonic_align/core.pyx"],
     )
 ]
+ext_modules = cythonize(exts, language_level=3) if HAS_CYTHON else []
+
 setup(
     name="TTS",
     version=version,
@@ -89,7 +95,7 @@ setup(
     license="MPL-2.0",
     # cython
     include_dirs=numpy.get_include(),
-    ext_modules=cythonize(exts, language_level=3),
+    ext_modules=ext_modules,
     # ext_modules=find_cython_extensions(),
     # package
     include_package_data=True,
@@ -117,7 +123,7 @@ setup(
         "notebooks": requirements_notebooks,
         "ja": requirements_ja,
     },
-    python_requires=">=3.9.0, <3.12",
+    python_requires=">=3.9.0, <3.13",
     entry_points={"console_scripts": ["tts=TTS.bin.synthesize:main", "tts-server = TTS.server.server:main"]},
     classifiers=[
         "Programming Language :: Python",
