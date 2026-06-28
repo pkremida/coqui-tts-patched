@@ -21,6 +21,9 @@ class GPT2InferenceModel(GPT2PreTrainedModel):
     def store_prefix_emb(self, prefix_emb):
         self.cached_prefix_emb = prefix_emb
 
+    def _get_initial_cache_position(self, batch_size, device):
+        return torch.zeros(batch_size, dtype=torch.long, device=device)
+
     def prepare_inputs_for_generation(self, input_ids, past_key_values=None, **kwargs):
         token_type_ids = kwargs.get("token_type_ids", None)  # usually None
         if not self.kv_cache:
